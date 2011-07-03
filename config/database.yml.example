@@ -1,0 +1,26 @@
+---
+development: &defaults
+  adapter:  mysql
+  database: rubytime3_dev
+  username: root
+  password: 
+  host: localhost
+  encoding: UTF-8
+
+test:
+  <<:       *defaults
+  database: rubytime3_test
+
+production:
+  <<:       *defaults
+  database: rubytime3_prod
+  repositories:
+    legacy:
+      adapter:  mysql
+      database: rubytime2_prod
+      username: root
+      password: 
+      host: localhost
+
+rake:
+  <<:       *defaults

@@ -1,0 +1,29 @@
+<h1>Invoice: <%= @invoice.name %></h1>
+<% unless @invoice.notes.blank? %>
+  Notes: <%= @invoice.notes %>
+<% end %>
+
+<% if @invoice.activities.empty? %>
+  This invoice has no assigned activities.
+<% else %>
+  <p>
+    This invoice contains following activities:
+    <br/>
+    <br/>
+  </p>
+  
+  <%= partial("activities/grouped_activities") %>
+  
+  <% if @invoice.issued? %>
+    This invoice has been issued at <%= @invoice.issued_at.to_time.to_date %>
+  <% elsif current_user.is_admin? %>
+    <%= form_for @invoice, :action => resource(@invoice, :issue), :id => "issue_invoice_form" do %>
+      <%= submit "Issue this invoice", :class => "button" %>
+    <% end =%>
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to 'Back to invoices', url(:invoices, filter_hash) %>
+  <%= link_to('Edit', resource(@invoice, :edit, filter_hash))if current_user.is_admin? %>
+</p>

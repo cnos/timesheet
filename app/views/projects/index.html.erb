@@ -1,0 +1,33 @@
+<% throw_content :secondary, partial(:new_project) if current_user.is_admin? %>
+<h1>List of projects</h1>
+
+<% if @projects.empty? %>
+  No projects found.
+<% else %>
+  <table id="projects" class="list wide">
+  <tr>
+    <th>Name</th>
+    <% if current_user.is_admin? %>
+      <th>Client</th>
+    <% end %>
+    <th>Active</th>
+    <th class="icons"></th>
+  </tr>
+  <% @projects.each do |project| %>
+    <tr>
+      <td><%= current_user.is_admin? ? link_to(project.name, resource(project)) : project.name %></td>
+      <% if current_user.is_admin? %>
+        <td><%= link_to project.client.name, resource(project.client) %></td>
+      <% end %>
+      <td><%= project.active ? 'Yes' : 'No' %></td>
+      <td class="icons">
+        <%= link_to image_tag("icons/calendar.png", :title => "Show calendar for this project", :alt => "C"), resource(project, :calendar) %>
+        <% if current_user.is_admin? %>
+          <%= link_to image_tag("icons/pencil.png", :title => "Edit", :alt => "E"), resource(project, :edit) %>
+          <%= link_to image_tag("icons/cross.png", :title => "Remove", :alt => "R"), resource(project), :class => "delete_row" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>

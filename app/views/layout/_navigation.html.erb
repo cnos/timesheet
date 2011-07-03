@@ -1,0 +1,22 @@
+<h4 class="hidden">Navigation</h4>
+<dl id="menu" class="clearfix">
+  <% main_menu_items.each do |item| %>
+    <dt class="<%= 'selected' if item[:selected] %>">
+      <a href="<%= item[:path] %>"><%= item[:title] %></a>
+    </dt>
+  <% end %>
+  <dd>
+    <ul class="floor-2">
+      <% sub_menu_items.each do |item| %>
+        <li class="<%= 'selected' if item[:selected] %>"><a href="<%= item[:path] %>"><%= item[:title] %></a></li>
+      <% end %>
+    </ul>
+  </dd>
+  <% unless current_user.instance_of?(ClientUser) %>
+    <dt class="add-activity">
+      <a href="#add_activity">
+        Add new activity
+      </a>
+    </dt>
+  <% end %>
+</dl>

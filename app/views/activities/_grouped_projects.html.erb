@@ -1,0 +1,19 @@
+<ul class="projects">
+  <% projects.each do |project| %>
+    <li class="project">
+      <%= image_tag("icons/client.png", :alt => 'client') %>
+      <strong>Client: <%= client.name %></strong>
+      <%= image_tag("icons/project.png", :alt => 'project') %>
+      <strong>Project: <%= project.name %></strong>
+      <% if current_user.is_employee? && !current_user.is_admin? %>
+        <% activities = activities_from(@activities, client, project) %>
+        <%= full_activities_table(activities) %>
+      <% else %>
+        <%= partial("activities/roles_summary_by_project", :roles => unique_roles_from(@activities, client, project), :client => client, :project => project) %>
+        <%= partial("activities/grouped_roles", :roles => unique_roles_from(@activities, client, project), :client => client, :project => project) %>
+        <strong class="total">Total for project: <%= total_from(activities_from(@activities, client, project)) %></strong>
+        <%= total_custom_properties(@activities, client, project) %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

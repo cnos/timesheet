@@ -1,0 +1,24 @@
+<% throw_content :secondary, partial(:filter) %>
+<% show_invoice_form = current_user.is_admin? && !@uninvoiced_activities.empty? %>
+
+<h3>List of activities</h3>
+
+<% if @activities.empty? %>
+  <p>No activities found for selected critieria.</p> 
+<% else %>
+  <p>
+    Found <%= @activities.size %> matching activities
+    <%= @search_criteria.date_from ? " from #{@search_criteria.date_from.formatted(current_user.date_format)}" : "" %>
+    <%= @search_criteria.date_to ? " till #{@search_criteria.date_to.formatted(current_user.date_format)}" : "" %>.
+    <br/>
+    <br/>
+  </p>
+  
+  <%= partial(:grouped_activities) %>
+
+  <%= link_to "Export this list to CSV", url(:activities) + ".csv?" + params.reject { |k,v| k =~ /^(id|action|controller|format)$/}.to_params %>
+  
+  <% if show_invoice_form %>
+    <%= partial(:invoice_forms) %>
+  <% end %>
+<% end %>

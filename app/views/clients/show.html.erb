@@ -1,0 +1,49 @@
+<h1>Client</h1>
+<p>
+  Name: <%= @client.name %>
+</p>
+<p>
+  Description: <%= @client.description %>
+</p>     
+<p>
+  Email: <%= @client.email %>
+</p>
+<p>
+  Active: <%= @client.active ? "Yes" : "No" %>
+</p>
+<p>
+  <%= link_to "Edit", url(:edit_client, @client) %>
+</p>
+
+<br/><br/>
+<h2>Client's projects:</h2>
+<table class="padding5">
+  <% @client.projects.each do |project| %>
+    <tr>
+      <td><%= project.name %></td>
+      <td><%= link_to "Show", url(:project, project) %></td>
+      <td><%= link_to "Edit", url(:edit_project, project) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if current_user.is_admin? %>
+  <p><%= link_to 'Create new project', resource(:projects, :client_id => @client.id) %></p>
+<% end %>
+
+<br/><br/>
+<h2>Client's users:</h2>
+<table class="padding5">
+  <% @client.client_users.each do |user| %>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.login %></td>
+      <td><%= link_to "Show", url(:user, user) %></td>
+      <td><%= link_to "Edit", url(:edit_user, user) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<% if current_user.is_admin? %>
+  <p><%= link_to 'Create new user', resource(:users, :client_id => @client.id) %></p>
+<% end %>

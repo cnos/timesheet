@@ -1,0 +1,41 @@
+<h1>Users details</h1>
+<p>
+  Name: <%= @user.name %>
+</p>
+<% if @user.is_a?(Employee) %>
+  <p>
+    Role: <%= link_to @user.role.name, resource(@user.role) %>
+  </p>
+<% end %>
+<% if @user.is_a?(ClientUser) %>
+  <p>
+    Client: <%= link_to @user.client.name, resource(@user.client) %>
+  </p>
+<% end %>
+<p>
+  Login: <%= @user.login %>
+</p>
+<p>
+  LDAP Login: <%= @user.ldap_login %>
+</p>
+<p>
+  Email: <%= @user.email %>
+</p>
+<p>
+  Active: <%= @user.active ? "Yes" : "No" %>
+</p>
+<p>
+  Admin: <%= @user.admin ? "Yes" : "No" %>
+</p>
+<p>
+  Created at: <%= @user.created_at.to_date.formatted(current_user.date_format) %>
+</p>
+<% if @user.is_employee? %>
+  <p>
+    <%= link_to "Show calendar", url(:user_calendar, @user) %>
+  </p>
+<% end %>
+<p>
+  <%= link_to 'Edit',  url(:edit_user,  @user) %> |
+  <%= link_to 'Back', url(:users) %>
+</p>

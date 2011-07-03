@@ -1,0 +1,23 @@
+# config
+config/database.yml
+config/deploy.rb
+config/local_config.rb
+config/rcov_stats.yml
+config/schedule.rb
+
+# regenerable
+coverage/*
+spec/controllers/log/*
+public/javascripts/base.js
+public/stylesheets/base.css
+
+# logs
+log/*
+
+# other
+nbproject
+.idea/*
+tmp/pids/*
+
+# gems
+.bundle

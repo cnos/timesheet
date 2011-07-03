@@ -1,0 +1,27 @@
+<% throw_content :secondary, partial(:new_invoice) if current_user.is_admin? %>
+<h1>List of <%= (params[:filter] || 'all').downcase %> invoices</h1>
+
+<% if @invoices.empty? %>
+  No invoices found.
+<% else %>
+  <table id="invoices" class="list wide">
+  <tr>
+    <th>Name</th>
+    <% unless current_user.is_client_user? %><th>Client</th><% end %>
+    <th>Created at</th>
+    <th>Issued at</th>
+    <th class="icons"></th>
+  </tr>
+  <% @invoices.each do |invoice| %>
+    <tr>
+      <td><%= link_to(invoice.name, resource(invoice, filter_hash)) %></td>
+      <% unless current_user.is_client_user? %><td><%= invoice.client.name %></td><% end %>
+      <td><%= invoice.created_at.to_time.to_date.formatted(current_user.date_format) %></td>
+      <td><%= invoice.issued? ? invoice.issued_at.to_time.to_date.formatted(current_user.date_format) : "-" %></td>
+      <td class="icons">
+        <%= link_to(image_tag("icons/pencil.png", :alt => "E", :title => "Edit"), resource(invoice, :edit, filter_hash)) if current_user.is_admin? %>
+        <%= link_to(image_tag("icons/cross.png", :alt => "R", :title => "Remove"), resource(invoice, filter_hash), :class => :delete_row) unless current_user.is_client_user? %></td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>

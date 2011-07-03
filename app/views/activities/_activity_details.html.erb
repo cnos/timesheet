@@ -1,0 +1,14 @@
+<%# TODO: is this used anywhere at all ?... %>
+<dl id="list_activity_<%= activity.id %>" class="activity_details">
+  <dt><span class="label">Project:</span><%= activity.project.name %></dt>
+  <dd>
+    <span class="label">Hours:</span>
+    <%= activity.hours %> 
+    <%= edit_activity activity %>
+    <%= delete_activity activity %>
+  </dd>
+  <dd class="comments">
+    <p class="label">Comments:</p>
+    <p class="comments"><%= activity.comments.strip.gsub("\n", "<br/>") %></p>
+  </dd>
+</dl>
